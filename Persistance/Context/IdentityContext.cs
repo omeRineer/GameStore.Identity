@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Utilities.Helpers;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,26 @@ namespace Persistance.Context
                         .ToTable("Users")
                         .HasIndex(i => i.Key)
                         .IsUnique();
+
+            modelBuilder.Entity<User>()
+                        .HasData(new List<User>
+                        {
+                            new()
+                            { 
+                                Key = UserKeyHelper.GenerateUserKey("GMST"),
+                                FirstName = "Super Admin",
+                                LastName = "User",
+                                UserName = "superadmin",
+                                Password = "123456",
+                                BirthdayDate = DateTime.Now,
+                                Email = "",
+                                Phone = "",
+                                Roles = new List<UserRole>{ new() 
+                                {
+                                    Role = new(){ Key = "SupderAdmin" }
+                                }}
+                            }
+                        });
 
             modelBuilder.Entity<Role>()
                         .ToTable("Roles");

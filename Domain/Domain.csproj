@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="Core">
+      <HintPath>..\..\..\Meta\GameStore.Meta.Business\bin\Debug\net6.0\Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
