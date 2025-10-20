@@ -16,7 +16,7 @@ namespace Persistance
 
         public static void AddDataBase(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<IdentityContext>(opt =>
+            services.AddDbContext<DbContext, IdentityContext>(opt =>
             {
                 opt.UseSqlServer(connectionString);
             });

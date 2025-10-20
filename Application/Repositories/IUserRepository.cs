@@ -12,5 +12,6 @@ namespace Application.Repositories
     {
         Task<bool> IsExistByUserNameAndPassword(string userName, string password);
         Task<User?> GetByUserNameAndPassword(string userName, string password);
+        Task<User> GetUserIdentity(Guid id);
     }
 }

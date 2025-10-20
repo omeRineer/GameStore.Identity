@@ -1,6 +1,8 @@
-﻿using Application.Models.Rest.User;
+﻿using Application.Models.Rest.Auth;
+using Application.Models.Rest.User;
 using Application.Utils.ApiResponse;
 using Core.Utilities.ResultTool;
+using Domain.Entities;
 
 namespace Application.Services.Abstract
 {
@@ -16,5 +18,9 @@ namespace Application.Services.Abstract
         Task<ApiDataResponse<GetUserRolesResponse>> GetRolesAsync(Guid id);
         Task<ApiDataResponse<GetUserPermissionsResponse>> GetPermissionsAsync(Guid id);
         Task<ApiDataResponse<GetUserClaimsResponse>> GetClaimsAsync(Guid id);
+
+
+        Task<ApiDataResponse<User>> GetByLoginAsync(string userName, string password);
+        Task<ApiDataResponse<User>> GetUserIdentityAsync(Guid id);
     }
 }

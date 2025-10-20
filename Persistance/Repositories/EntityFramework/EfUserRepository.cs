@@ -27,6 +27,16 @@ namespace Persistance.Repositories.EntityFramework
                           .Include(i => i.Claims)
                                 .SingleOrDefaultAsync(f => f.UserName == userName && f.Password == password);
 
+        public async Task<User> GetUserIdentity(Guid id)
+            => await Table.Include(i => i.Roles)
+                                .ThenInclude(i => i.Role)
+                                .ThenInclude(i => i.RolePermissions)
+                                .ThenInclude(i => i.Permission)
+                          .Include(i => i.Permissions)
+                                .ThenInclude(i => i.Permission)
+                          .Include(i => i.Claims)
+                                .SingleAsync(f => f.Id == id);
+
         public async Task<bool> IsExistByUserNameAndPassword(string userName, string password)
             => await Table.AnyAsync(f => f.UserName == userName && f.Password == password);
     }

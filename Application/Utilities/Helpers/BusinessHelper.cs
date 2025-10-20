@@ -1,6 +1,4 @@
 ﻿using Core.Entities.Abstract;
-using Entities.Enum.Type;
-using Entities.Main;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -81,6 +81,16 @@ namespace Application.Services
             return ApiResponseHelper.Success(data: result);
         }
 
+        public async Task<ApiDataResponse<User>> GetByLoginAsync(string userName, string password)
+        {
+            var user = await _userRepository.GetByUserNameAndPassword(userName, password);
+
+            if (user == null)
+                return ApiResponseHelper.Error<User>("User is not found");
+
+            return ApiResponseHelper.Success<User>(data: user);
+        }
+
         public async Task<ApiDataResponse<GetUserClaimsResponse>> GetClaimsAsync(Guid id)
         {
             var claims = await _userClaimRepository.GetDictionariesAsync(k => k.Type, v => v.Value, f => f.UserId == id);
@@ -112,6 +122,13 @@ namespace Application.Services
             };
 
             return ApiResponseHelper.Success(data: result);
+        }
+
+        public async Task<ApiDataResponse<User>> GetUserIdentityAsync(Guid id)
+        {
+            var user = await _userRepository.GetUserIdentity(id);
+
+            return ApiResponseHelper.Success(data: user);
         }
 
         public async Task<ApiResponse> SetClaimsAsync(SetUserClaimsRequest request)
@@ -178,5 +195,7 @@ namespace Application.Services
 
             return ApiResponseHelper.Success();
         }
+
+
     }
 }

@@ -11,6 +11,7 @@ namespace Persistance.Context
 {
     public class IdentityContext : DbContext
     {
+        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -22,19 +23,18 @@ namespace Persistance.Context
                         .HasData(new List<User>
                         {
                             new()
-                            { 
-                                Key = UserKeyHelper.GenerateUserKey("GMST"),
+                            {
+                                Id = Guid.Parse("2f1b6f4a-3b0d-4f4c-94b8-9d5c4a7aaf25"),
+                                Key = "GMSTXYR35",
                                 FirstName = "Super Admin",
                                 LastName = "User",
                                 UserName = "superadmin",
                                 Password = "123456",
-                                BirthdayDate = DateTime.Now,
+                                BirthdayDate = new DateTime(2025, 10, 1),
                                 Email = "",
                                 Phone = "",
-                                Roles = new List<UserRole>{ new() 
-                                {
-                                    Role = new(){ Key = "SupderAdmin" }
-                                }}
+                                CreateDate = new DateTime(2025, 10, 1),
+                                EditDate = new DateTime(2025, 10, 1)
                             }
                         });
 
