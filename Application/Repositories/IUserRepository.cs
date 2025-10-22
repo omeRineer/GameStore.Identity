@@ -10,8 +10,6 @@ namespace Application.Repositories
 {
     public interface IUserRepository : IEfEntityRepository<User, Guid>, IEfEntityRepositoryAsync<User, Guid>
     {
-        Task<bool> IsExistByUserNameAndPassword(string userName, string password);
         Task<User?> GetByUserNameAndPassword(string userName, string password);
-        Task<User> GetUserIdentity(Guid id);
     }
 }

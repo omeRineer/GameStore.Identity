@@ -1,11 +1,16 @@
 using Application;
+using Configuration;
 using Persistance;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration = new ConfigurationBuilder()
-                            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
-                            .Build(); ;
+
+builder.Services.AddCors(options =>
+                            options.AddDefaultPolicy(builder =>
+                            builder.AllowAnyHeader()
+                                   .AllowAnyMethod()
+                                   .AllowAnyOrigin()));
+
 
 builder.Services.AddAutoMapper(opt =>
 {
@@ -14,18 +19,20 @@ builder.Services.AddAutoMapper(opt =>
 }, Assembly.GetExecutingAssembly());
 builder.Services.AddControllers();
 builder.Services.AddServices();
-builder.Services.AddAuthServer();
-builder.Services.AddDataBase(configuration.GetConnectionString("IdentityDb"));
+builder.Services.AddTokenService();
+builder.Services.AddDataBase(IdentityConfiguration.ConnectionString);
 builder.Services.AddRepositories();
 
 var app = builder.Build();
 
-app.UseHttpsRedirection();
+app.UseCors();
 
-app.UseIdentityServer();
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

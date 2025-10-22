@@ -1,4 +1,5 @@
-﻿using Application.Models.Rest.User;
+﻿using Application.Models.Rest.Auth;
+using Application.Models.Rest.User;
 using AutoMapper;
 using Domain.Entities;
 using System;

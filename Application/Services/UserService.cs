@@ -1,10 +1,10 @@
 ﻿using Application.Models.Rest.User;
 using Application.Repositories;
+using Application.Rules;
 using Application.Services.Abstract;
 using Application.Utilities.Helpers;
 using Application.Utils.ApiResponse;
 using AutoMapper;
-using Business.Helpers;
 using Core.Utilities.ResultTool;
 using Domain.Entities;
 using System;
@@ -35,6 +35,14 @@ namespace Application.Services
 
         public async Task<ApiResponse> CreateAsync(CreateUserRequest request)
         {
+            var rulesResult = await BusinessRuleEngine.Run
+                (
+                    new CheckEmailForNewUserRule(request.Email),
+                    new CheckUserNameForNewUserRule(request.UserName)
+                );
+            if (!rulesResult.Success)
+                return ApiResponseHelper.Error(rulesResult.Message);
+
             var newUser = _mapper.Map<User>(request);
 
             newUser.Key = UserKeyHelper.GenerateUserKey("GMST");
@@ -122,13 +130,6 @@ namespace Application.Services
             };
 
             return ApiResponseHelper.Success(data: result);
-        }
-
-        public async Task<ApiDataResponse<User>> GetUserIdentityAsync(Guid id)
-        {
-            var user = await _userRepository.GetUserIdentity(id);
-
-            return ApiResponseHelper.Success(data: user);
         }
 
         public async Task<ApiResponse> SetClaimsAsync(SetUserClaimsRequest request)

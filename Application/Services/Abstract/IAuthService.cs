@@ -12,5 +12,6 @@ namespace Application.Services.Abstract
     public interface IAuthService
     {
         Task<ApiDataResponse<UserLoginResponse>> LoginAsync(UserLoginRequest request);
+        Task<ApiResponse> RegisterAsync(UserRegisterRequest request);
     }
 }

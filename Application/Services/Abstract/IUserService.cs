@@ -21,6 +21,5 @@ namespace Application.Services.Abstract
 
 
         Task<ApiDataResponse<User>> GetByLoginAsync(string userName, string password);
-        Task<ApiDataResponse<User>> GetUserIdentityAsync(Guid id);
     }
 }
