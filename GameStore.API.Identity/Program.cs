@@ -1,17 +1,17 @@
 using Application;
+using Application.Extensions;
 using Configuration;
 using Persistance;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-                            options.AddDefaultPolicy(builder =>
-                            builder.AllowAnyHeader()
-                                   .AllowAnyMethod()
-                                   .AllowAnyOrigin()));
-
-
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(builder => builder.AllowAnyHeader()
+                                           .AllowAnyMethod()
+                                           .AllowAnyOrigin());
+});
 builder.Services.AddAutoMapper(opt =>
 {
     opt.AddGlobalIgnore("CreateDate");
@@ -24,6 +24,8 @@ builder.Services.AddDataBase(IdentityConfiguration.ConnectionString);
 builder.Services.AddRepositories();
 
 var app = builder.Build();
+
+app.UseStaticServiceProvider();
 
 app.UseCors();
 

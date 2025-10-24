@@ -3,6 +3,7 @@ using Application.Models.Rest.Auth;
 using Application.Repositories;
 using Application.Rules;
 using Application.Services.Abstract;
+using Application.Utilities.Helpers;
 using Application.Utils.ApiResponse;
 using AutoMapper;
 using Core.Utilities.ResultTool;
@@ -68,9 +69,13 @@ namespace Application.Services
             if (!rulesResult.Success)
                 return ApiResponseHelper.Error(rulesResult.Message);
 
-            var mapped = _mapper.Map<User>(request);
+            var newUser = _mapper.Map<User>(request);
 
-            await _userRepository.AddAsync(mapped);
+            newUser.Key = UserKeyHelper.GenerateUserKey("GMST");
+            while (await _userRepository.IsExistAsync(i => i.Key == newUser.Key))
+                newUser.Key = UserKeyHelper.GenerateUserKey("GMST");
+
+            await _userRepository.AddAsync(newUser);
             await _userRepository.SaveAsync();
 
             return ApiResponseHelper.Success("User is created");
