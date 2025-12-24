@@ -14,7 +14,9 @@ namespace Business.Mapping.AutoMapper
     {
         public UserProfile()
         {
-            CreateMap<CreateUserRequest, User>();
+            CreateMap<CreateUserRequest, User>()
+                .ForMember(x => x.Roles, opt => opt.Ignore())
+                .ForMember(x => x.Permissions, opt => opt.Ignore());
             CreateMap<UpdateUserRequest, User>();
             CreateMap<User, UserResponse>();
         }

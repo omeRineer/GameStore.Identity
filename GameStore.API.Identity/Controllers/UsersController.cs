@@ -1,7 +1,7 @@
 ﻿using Application.Models.Rest.User;
 using Application.Services.Abstract;
 using GameStore.API.Identity.Controllers.Common;
-using Microsoft.AspNetCore.Authorization;
+using GameStore.API.Identity.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

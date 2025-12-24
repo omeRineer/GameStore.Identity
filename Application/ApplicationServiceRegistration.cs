@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,12 @@ namespace Application
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
+
+            services.AddAutoMapper(opt =>
+            {
+                opt.AddGlobalIgnore("CreateDate");
+                opt.AddGlobalIgnore("EditDate");
+            }, Assembly.GetExecutingAssembly());
         }
 
         public static void AddTokenService(this IServiceCollection services)
